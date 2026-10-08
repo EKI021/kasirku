@@ -1,4 +1,4 @@
-#name: Deploy kasirku to VM
+name: Deploy kasirku to VM
 
 on:
   push:
@@ -14,8 +14,7 @@ jobs:
       - name: Authenticate to Tailscale
         uses: tailscale/github-action@v2
         with:
-          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
-          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+          authkey: ${{ secrets.TS_AUTHKEY }}
 
       - name: Deploy via SSH over Tailscale
         uses: appleboy/ssh-action@master
