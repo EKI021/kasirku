@@ -1,4 +1,4 @@
-name: Deploy kasirku to VM
+#name: Deploy kasirku to VM
 
 on:
   push:
