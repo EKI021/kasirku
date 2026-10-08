@@ -1,0 +1,2 @@
+# kasirku
+pos stokopname
