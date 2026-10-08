@@ -1,0 +1,6 @@
+{
+  "name": "Toko Almas - POS & Stok Opname",
+  "description": "Sistem Point of Sale (POS) modern Toko Almas terintegrasi dengan stok opname barcode/manual, pelacakan inventaris, dan analisis keuangan.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

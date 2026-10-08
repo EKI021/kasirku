@@ -1,0 +1,117 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "Katalog produk dan stok barang Toko Almas",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 200 },
+        "sku": { "type": "string", "maxLength": 64 },
+        "category": { "type": "string", "maxLength": 100 },
+        "price": { "type": "number" },
+        "costPrice": { "type": "number" },
+        "stock": { "type": "number" },
+        "minStock": { "type": "number" },
+        "unit": { "type": "string", "maxLength": 30 },
+        "imageUrl": { "type": "string", "maxLength": 500 },
+        "barcode": { "type": "string", "maxLength": 64 },
+        "createdAt": { "type": "string", "maxLength": 64 },
+        "updatedAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["id", "name", "category", "price", "costPrice", "stock"]
+    },
+    "Transaction": {
+      "title": "Transaction",
+      "description": "Catatan transaksi penjualan Point of Sale Toko Almas",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "invoiceNumber": { "type": "string", "maxLength": 64 },
+        "subtotal": { "type": "number" },
+        "discount": { "type": "number" },
+        "total": { "type": "number" },
+        "paymentMethod": { "type": "string", "maxLength": 32 },
+        "amountPaid": { "type": "number" },
+        "change": { "type": "number" },
+        "cashierName": { "type": "string", "maxLength": 100 },
+        "customerName": { "type": "string", "maxLength": 100 },
+        "notes": { "type": "string", "maxLength": 300 },
+        "createdAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["id", "invoiceNumber", "subtotal", "total", "paymentMethod"]
+    },
+    "StockOpname": {
+      "title": "StockOpname",
+      "description": "Laporan sesi stok opname dan rekonsiliasi fisik vs sistem",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "opnameNumber": { "type": "string", "maxLength": 64 },
+        "operator": { "type": "string", "maxLength": 100 },
+        "totalItemsChecked": { "type": "number" },
+        "totalDiscrepancyQty": { "type": "number" },
+        "totalDiscrepancyValue": { "type": "number" },
+        "status": { "type": "string", "maxLength": 32 },
+        "notes": { "type": "string", "maxLength": 500 },
+        "createdAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["id", "opnameNumber", "operator", "status"]
+    },
+    "CashFlow": {
+      "title": "CashFlow",
+      "description": "Pencatatan arus kas masuk dan operasional toko",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "type": { "type": "string", "maxLength": 20 },
+        "category": { "type": "string", "maxLength": 100 },
+        "amount": { "type": "number" },
+        "description": { "type": "string", "maxLength": 300 },
+        "cashierName": { "type": "string", "maxLength": 100 },
+        "date": { "type": "string", "maxLength": 64 },
+        "createdAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["id", "type", "category", "amount"]
+    },
+    "ActivityLog": {
+      "title": "ActivityLog",
+      "description": "Log evidence kegiatan dan audit trail akses login sistem Toko Almas",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "timestamp": { "type": "string", "maxLength": 64 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "userName": { "type": "string", "maxLength": 100 },
+        "userRole": { "type": "string", "maxLength": 32 },
+        "actionType": { "type": "string", "maxLength": 64 },
+        "description": { "type": "string", "maxLength": 500 },
+        "targetId": { "type": "string", "maxLength": 128 },
+        "evidenceData": { "type": "string", "maxLength": 1000 }
+      },
+      "required": ["id", "timestamp", "userName", "userRole", "actionType", "description"]
+    }
+  },
+  "firestore": {
+    "/products/{productId}": {
+      "schema": { "$ref": "#/entities/Product" },
+      "description": "Data produk dan inventaris toko Almas"
+    },
+    "/transactions/{transactionId}": {
+      "schema": { "$ref": "#/entities/Transaction" },
+      "description": "Data transaksi POS dan faktur penjualan"
+    },
+    "/stock_opnames/{opnameId}": {
+      "schema": { "$ref": "#/entities/StockOpname" },
+      "description": "Data sesi dan rekonsiliasi stok opname"
+    },
+    "/cash_flows/{flowId}": {
+      "schema": { "$ref": "#/entities/CashFlow" },
+      "description": "Data kas masuk dan keluar operasional"
+    },
+    "/activity_logs/{logId}": {
+      "schema": { "$ref": "#/entities/ActivityLog" },
+      "description": "Log audit trail evidence kegiatan pengguna dan login"
+    }
+  }
+}

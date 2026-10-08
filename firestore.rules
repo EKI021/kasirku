@@ -1,0 +1,68 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Default deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Products collection (Katalog & Stok Toko Almas)
+    match /products/{productId} {
+      allow get, list: if true;
+      allow create, update: if isValidId(productId);
+      allow delete: if isValidId(productId);
+    }
+
+    // Transactions collection (Penjualan POS)
+    match /transactions/{transactionId} {
+      allow get, list: if true;
+      allow create, update: if isValidId(transactionId);
+      allow delete: if isValidId(transactionId);
+    }
+
+    // Stock Opname collection (Sesi & Penyesuaian Stok)
+    match /stock_opnames/{opnameId} {
+      allow get, list: if true;
+      allow create, update: if isValidId(opnameId);
+      allow delete: if isValidId(opnameId);
+    }
+
+    // Cash Flows collection (Arus Kas Toko)
+    match /cash_flows/{flowId} {
+      allow get, list: if true;
+      allow create, update: if isValidId(flowId);
+      allow delete: if isValidId(flowId);
+    }
+
+    // Activity Logs collection (Audit trail evidence kegiatan)
+    match /activity_logs/{logId} {
+      allow get, list: if true;
+      allow create, update: if isValidId(logId);
+      allow delete: if isValidId(logId);
+    }
+
+    // Store Settings
+    match /settings/{settingId} {
+      allow get, list: if true;
+      allow create, update, delete: if isValidId(settingId);
+    }
+
+    // Product Categories & Types
+    match /categories/{categoryId} {
+      allow get, list: if true;
+      allow create, update, delete: if isValidId(categoryId);
+    }
+
+    // System Login Accounts
+    match /system_users/{userId} {
+      allow get, list: if true;
+      allow create, update, delete: if isValidId(userId);
+    }
+  }
+}
