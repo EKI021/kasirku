@@ -19,7 +19,7 @@ jobs:
       - name: Deploy via SSH over Tailscale
         uses: appleboy/ssh-action@master
         with:
-          host: 100.100.20.85
+          host: ${{ secrets.VM_TAILSCALE_IP }}
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
