@@ -79,12 +79,12 @@ export const BarcodePrintModal: React.FC<BarcodePrintModalProps> = ({
         const initialQty = initialProduct.stock > 0 ? Math.min(initialProduct.stock, 10) : 1;
         setPrintQueue([{ product: initialProduct, quantity: initialQty }]);
       } else {
-        // Multi product mode: default to first 3 products with quantity 2
-        const firstProducts = products.slice(0, 3).map((p) => ({
+        // Multi product mode: default to ALL products with quantity 1
+        const allProducts = products.map((p) => ({
           product: p,
-          quantity: p.stock > 0 ? Math.min(p.stock, 5) : 2,
+          quantity: 1,
         }));
-        setPrintQueue(firstProducts);
+        setPrintQueue(allProducts);
       }
       setScanTestResult(null);
     }

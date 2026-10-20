@@ -52,6 +52,8 @@ export const FinancialAnalyticsView: React.FC = () => {
     currentUser,
     monthlySalesTarget,
     setMonthlySalesTarget,
+    clearMonthlySalesTarget,
+    canManageSystemUsers,
   } = useStore();
   const [timeFilter, setTimeFilter] = useState<'all' | 'today' | 'week' | 'month'>('all');
 
@@ -222,6 +224,24 @@ export const FinancialAnalyticsView: React.FC = () => {
     } catch (err) {
       console.error(err);
       alert('Gagal menyimpan target penjualan.');
+    } finally {
+      setIsSavingTarget(false);
+    }
+  };
+
+  const handleClearTarget = async () => {
+    if (!confirm('Apakah Anda yakin ingin menghapus target penjualan bulanan? Target akan diatur ulang ke nilai default (Rp 30.000.000).')) {
+      return;
+    }
+    setIsSavingTarget(true);
+    try {
+      await clearMonthlySalesTarget();
+      setTargetInput(30000000);
+      alert('Target penjualan bulanan telah diatur ulang ke nilai default.');
+      setIsTargetModalOpen(false);
+    } catch (err) {
+      console.error(err);
+      alert('Gagal mengatur ulang target penjualan.');
     } finally {
       setIsSavingTarget(false);
     }

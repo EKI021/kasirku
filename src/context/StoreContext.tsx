@@ -152,6 +152,7 @@ interface StoreContextType {
   canManageSystemUsers: boolean;
   monthlySalesTarget: number;
   setMonthlySalesTarget: (target: number) => Promise<void>;
+  clearMonthlySalesTarget: () => Promise<void>;
   adjustProductStock: (productId: string, newStock: number, reason?: string) => Promise<void>;
   
   // Dynamic Product Categories & Jenis Barang
@@ -439,6 +440,18 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       saveStoreSettingsToFirestore({ monthlySalesTarget: target }).catch(console.warn);
     } catch (e) {
       console.warn('Could not persist monthly sales target:', e);
+    }
+  };
+
+  // Reset monthly sales target to default (30.000.000) - Administrator only
+  const clearMonthlySalesTarget = async (): Promise<void> => {
+    const DEFAULT_TARGET = 30000000;
+    setMonthlySalesTargetState(DEFAULT_TARGET);
+    try {
+      localStorage.removeItem('almas_monthly_sales_target');
+      saveStoreSettingsToFirestore({ monthlySalesTarget: DEFAULT_TARGET }).catch(console.warn);
+    } catch (e) {
+      console.warn('Could not clear monthly sales target:', e);
     }
   };
 
@@ -1609,6 +1622,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         canManageSystemUsers,
         monthlySalesTarget,
         setMonthlySalesTarget,
+        clearMonthlySalesTarget,
         adjustProductStock,
         categories,
         addCategory,
